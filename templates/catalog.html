@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+{% load static %}
+{% load index %}
+<html>
+	<head>
+        {% include "meta_tags.html" %}
+        {% include "additional_frameworks.html" %}
+		<link rel="stylesheet" type="text/css" href="{% static 'catalog/css/catalog.css' %}">
+		<title>Каталог товаров - Stock Clothes</title>
+	</head>
+
+	<body>
+	    {% include "main_menu_layout.html" %}
+        <script src="{% static 'catalog/js/catalog.js' %}"></script>
+
+		<div class="container-catalog content">
+			<button class="collapsed bi bi-sort-down btn btn-dark d-md-none w-100 rounded-0" id="filters-button" type="button" data-bs-toggle="collapse" data-bs-target="#filters-types-clothes" aria-expanded="false"> Открыть фильтры</button>
+
+			<nav aria-label="breadcrumb">
+			    <form class="breadcrumps-form" action="" method="POST">
+			        {% csrf_token %}
+			        {%if shop_name_filter %}
+    			        <input type="hidden" name="store_id" id="store-catalog1" value="{{ shop_name_filter|index:1 }}">
+    			    {% endif %}
+    				<ol class="breadcrumb m-3">
+    					<li class="breadcrumb-item"><a href="https://stockclothes.pythonanywhere.com">Главная</a></li>
+    					{% if not filter_by_gender %}
+    					    <li class="breadcrumb-item active" aria-current="page">Каталог</li>
+    					{% else %}
+    					        <li class="breadcrumb-item"><a href="https://stockclothes.pythonanywhere.com/catalog/muzhchinam">Каталог</a></li>
+    					    {% if not filter_by_type_clothes %}
+        					    <li class="breadcrumb-item active" aria-current="page">{{ filter_by_gender|index:0 }}</li>
+        					{% else %}
+        					    <li class="breadcrumb-item">
+        					        <input type="hidden" class="btn-check" name="gender" id="gender-br" autocomplete="off" value="{{ gender_index }}">
+        					        <label class="br-label link-primary" for="gender-br" data-href="https://stockclothes.pythonanywhere.com/catalog/{{ filter_by_gender|index:1 }}">{{ filter_by_gender|index:0 }}</label>
+        					    </li>
+                                {% if not filter_by_subtype_clothes %}
+                                    <li class="breadcrumb-item active" aria-current="page">{{ filter_by_type_clothes|index:0 }}</li>
+                                {% else %}
+                                    <li class="breadcrumb-item">
+                                        <input type="hidden" class="btn-check" name="type_clothes" id="type-clothes-br" autocomplete="off" value="{{ filter_by_type_clothes|index:2 }}">
+        					            <label class="br-label link-primary" for="type-clothes-br" data-href="https://stockclothes.pythonanywhere.com/catalog/{{ filter_by_gender|index:1 }}/{{ filter_by_type_clothes|index:1 }}">{{ filter_by_type_clothes|index:0 }}</label>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">{{ filter_by_subtype_clothes|index:0 }}</li>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+    				</ol>
+				</form>
+			</nav>
+
+            {%if shop_name_filter %}
+                <div class="header-url-shop">
+                    <form class="get-shop-link" type="hidden" method="POST" action="https://stockclothes.pythonanywhere.com/stores_list/store-{{ shop_name_filter|index:0 }}">
+                        {% csrf_token %}
+                        <input type="hidden" name="store_id" id="store-catalog2" value="{{ shop_name_filter|index:1 }}">
+                        <span>Магазин: <label class="shop-label link-primary" for="store-catalog2">{{ shop_name_filter|index:2 }}</label></span>
+                    </form>
+                </div>
+            {% endif %}
+
+			<ul class="filters nav">
+				<li class="nav-item dropdown m-1">
+					<button class="btn btn-sm btn-outline-dark dropdown-toggle disabled" type="button" data-bs-toggle="dropdown" role="button"
+						aria-expanded="false" disabled>Сортировать</button>
+					<ul class="dropdown-menu">
+						<li><a class="dropdown-item" href="#">По возрастанию цены</a></li>
+						<li><a class="dropdown-item" href="#">По убыванию цены</a></li>
+						<li><a class="dropdown-item disabled" href="#" aria-disabled="true">По популярности</a></li>
+						<li><a class="dropdown-item disabled" href="#" aria-disabled="true">По скидкам</a></li>
+						<li><a class="dropdown-item disabled" href="#" aria-disabled="true">По новинкам</a></li>
+					</ul>
+				</li>
+
+				<li class="nav-item dropdown m-1">
+					<button class="btn btn-sm btn-outline-dark dropdown-toggle disabled" type="button" data-bs-toggle="dropdown" role="button"
+						aria-expanded="false" disabled>Материал</button>
+					<ul class="dropdown-menu">
+						<li><a class="dropdown-item" href="#">Хлопок</a></li>
+						<li><a class="dropdown-item" href="#">Искусственная кожа</a></li>
+						<li><a class="dropdown-item" href="#">Натуральная кожа</a></li>
+						<li><a class="dropdown-item" href="#">Лен</a></li>
+						<li><a class="dropdown-item" href="#">Полиэстер</a></li>
+						<li><a class="dropdown-item" href="#">Шерсть</a></li>
+					</ul>
+				</li>
+
+				<li class="nav-item dropdown m-1">
+					<button class="btn btn-sm btn-outline-dark dropdown-toggle disabled" type="button" data-bs-toggle="dropdown" role="button"
+						aria-expanded="false" disabled>Цвет</button>
+					<ul class="dropdown-menu">
+						<li><a class="dropdown-item" href="#">Красный</a></li>
+						<li><a class="dropdown-item" href="#">Синий</a></li>
+						<li><a class="dropdown-item" href="#">Зеленый</a></li>
+						<li><a class="dropdown-item" href="#">Черный</a></li>
+						<li><a class="dropdown-item" href="#">Белый</a></li>
+					</ul>
+				</li>
+
+				<li class="nav-item dropdown m-1">
+					<button class="btn btn-sm btn-outline-dark dropdown-toggle disabled" type="button" data-bs-toggle="dropdown" role="button"
+						aria-expanded="false" disabled>Размеры</button>
+					<ul class="dropdown-menu">
+						<li><a class="dropdown-item" href="#">38</a></li>
+						<li><a class="dropdown-item" href="#">39</a></li>
+						<li><a class="dropdown-item" href="#">40</a></li>
+						<li><a class="dropdown-item" href="#">41</a></li>
+						<li><a class="dropdown-item" href="#">42</a></li>
+						<li><a class="dropdown-item" href="#">43</a></li>
+						<li><a class="dropdown-item" href="#">44</a></li>
+					</ul>
+				</li>
+
+				<li class="nav-item dropdown m-1">
+					<button class="btn btn-sm btn-outline-dark dropdown-toggle disabled" type="button" data-bs-toggle="dropdown" role="button"
+						aria-expanded="false" disabled>Бренд</button>
+					<ul class="dropdown-menu">
+						<li><a class="dropdown-item" href="#">Adidas</a></li>
+						<li><a class="dropdown-item" href="#">Corneliani</a></li>
+					</ul>
+				</li>
+
+				<li class="nav-item dropdown m-1">
+					<form class="form-fltr-price">
+						<button class="btn btn-sm btn-outline-dark dropdown-toggle disabled" type="button" data-bs-toggle="dropdown" role="button"
+							aria-expanded="false" disabled>Цена</button>
+						<ul class="dropdown-menu">
+							<li class="row flex-nowrap w-100">
+								<div class="icon-from col-6 text-nowrap m-1">
+									<input class="form-control m-1" placeholder="От (сумма):" type="text" name="fltr-start">
+								</div>
+								<div class="icon-to col-6 flex-nowrap m-1">
+									<input class="form-control m-1" placeholder="До (сумма):" type="text" name="fltr-end">
+								</div>
+							</li>
+							<li class="row justify-content-center">
+								<button type="submit" class="btn btn-sm btn-outline-primary col-4">Применить</button>
+							</li>
+						</ul>
+					</form>
+				</li>
+
+				<select id="select-age" class="nav-item dropdown btn btn-sm btn-outline-dark m-1">
+				    <option value="0">Возраст</option>
+					<option value="1" {% if ageC == '1' %}selected{% endif %}>Взрослые</option>
+					<option value="2" {% if ageC == '2' %}selected{% endif %}>Тинейджеры</option>
+					<option value="3" {% if ageC == '3' %}selected{% endif %}>Дети</option>
+				</select>
+
+				<select id="select-season" class="nav-item dropdown btn btn-sm btn-outline-dark m-1">
+				    <option value="0">Сезон</option>
+					<option value="1" {% if seasonC == '1' %}selected{% endif %}>Лето</option>
+					<option value="2" {% if seasonC == '2' %}selected{% endif %}>Зима</option>
+					<option value="3" {% if seasonC == '3' %}selected{% endif %}>Демисезон</option>
+				</select>
+
+				<li class="nav-item dropdown m-1">
+				    <button type="button" id="save-button" class="btn btn-sm btn-outline-primary"><i class="bi bi-filter-square"></i> Применить</button>
+				</li>
+
+				<li class="nav-item dropdown m-1">
+				    <button type="button" id="cancel-button" class="btn btn-sm btn-outline-secondary"><i class="bi bi-filter-square"></i> Cбросить</button>
+				</li>
+			</ul>
+
+			<div id="product_cards" class="row m-3">
+			    {% for element in products %}
+				<form class="product_pos col-6 col-lg-2 p-lg-2 p-0 loadProductPageClass age-{{element.product_card.age}} season-{{element.product_card.season}}" name="loadProductPage-{{forloop.counter}}" action="/../product_card/" method="post">
+				    {% csrf_token %}
+    			    <input type="hidden" name="breadcrumps" value="">
+				    <input name="id_product" type="hidden" value="{{element.id}}">
+					<div class="card m-1 m-lg-0">
+						<img src="/media/{{ element.image }}" alt="card-image-product">
+						<div class="card-body">
+							<h6 class="card-title сol-3">{{ element.product_card.price }} руб.</h6>
+							<div class="sizes row">
+								<span>
+									<h6 class="card-title card-title-body">{{ element.product_card.name }}</h6>
+								</span>
+							</div>
+							<div class="sizes row">
+								<span>
+									<span class="text-secondary">Размеры:<br></span>{{ element.sizes }}
+								</span>
+							</div>
+							<div class="material row">
+								<span>
+									<span class="text-secondary">Материал:<br></span>{{ element.product_card.material }}
+								</span>
+							</div>
+						</div>
+					</div>
+				</form>
+				{% endfor %}
+			</div>
+		</div>
+
+		<div class="accordion fixed-top collapse d-md-block bg-white filters-categories" id="filters-types-clothes">
+			<div class="btn-group bg-white womans-mans" role="group" aria-label="Basic radio toggle button group">
+			    {% if filter_by_gender %}
+			        {% firstof filter_by_gender|index:0 as gender %}
+			    {% endif %}
+			    <div class="col-6">
+    			    <form class="change-gender-form" action="https://stockclothes.pythonanywhere.com/catalog/muzhchinam" method="POST">
+        		        {% csrf_token %}
+        		        {%if shop_name_filter %}
+        			        <input type="hidden" name="store_id" id="store-catalog1" value="{{ shop_name_filter|index:1 }}">
+        			    {% endif %}
+        				<input type="hidden" class="btn-check" name="gender" id="btnradio1" autocomplete="off" value="2">
+        				<label class="btn {% if gender == 'Мужчинам' %} active {% endif %} btn-outline-dark gender-label w-100" for="btnradio1">Мужчинам</label>
+        			</form>
+        		</div>
+    			<div class="col-6">
+                    <form class="change-gender-form" action="https://stockclothes.pythonanywhere.com/catalog/zhenschinam" method="POST">
+                        {% csrf_token %}
+                        {%if shop_name_filter %}
+        			        <input type="hidden" name="store_id" id="store-catalog1" value="{{ shop_name_filter|index:1 }}">
+        			    {% endif %}
+        				<input type="hidden" class="btn-check" name="gender" id="btnradio3" autocomplete="off" value="1">
+        				<label class="btn {% if gender == 'Женщинам' %} active {% endif %} btn-outline-dark gender-label w-100" for="btnradio3">Женщинам</label>
+        			</form>
+    			</div>
+			</div>
+
+            <form class="change-type-clothes-form" action="" method="POST">
+    		    {% csrf_token %}
+    		    {%if shop_name_filter %}
+			        <input type="hidden" name="store_id" id="store-catalog1" value="{{ shop_name_filter|index:1 }}">
+			    {% endif %}
+    		    {% if filter_by_gender %}
+    		        <input id="radio-type-gender" type="hidden" name="gender" autocomplete="off" value="{{ filter_by_gender|index:0 }}">
+    		    {% endif %}
+  			    <div class="accordion-item">
+        			<h2 class="accordion-header filter-parent row" id="acc-types-cloth-h1">
+        			    <div data-href="boots" class="col-8 fs-6 filter-header">
+    			            <input id="radio-obuv" type="hidden" name="type_clothes" autocomplete="off" value="100">
+    			            <label class="type-label" for="radio-obuv" data-href="https://stockclothes.pythonanywhere.com/catalog/{{filter_by_gender|index:1}}/obuv">Обувь</label>
+        			    </div>
+        			    <div class="col-4 filter-button fbtn-1">
+    	      			    <button class="accordion-button collapsed rounded-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#acc-types-cloth-collapse1" aria-expanded="false" aria-controls="acc-types-cloth-collapse1"></button>
+                        </div>
+        			</h2>
+        			<div id="acc-types-cloth-collapse1" class="accordion-collapse collapse p-0" aria-labelledby="acc-types-cloth-h1" data-bs-parent='#filters-types-clothes'>
+          				<div class="accordion-body">
+            				<button class="button-type-cloth btn btn-outline-secondary text-nowrap subtype-button" type="button" data-input-id="sb-1" data-href="https://stockclothes.pythonanywhere.com/catalog/{{filter_by_gender|index:1}}/obuv/botinki">
+            				    <input type="hidden" name="type_clothes" autocomplete="off" value="101" id="sb-1">Ботинки
+            				</button>
+            				<button class="button-type-cloth btn btn-outline-secondary text-nowrap subtype-button" type="button" data-input-id="sb-2" data-href="https://stockclothes.pythonanywhere.com/catalog/{{filter_by_gender|index:1}}/obuv/krossovki_i_kedy">
+            				    <input type="hidden" name="type_clothes" autocomplete="off" value="102" id="sb-2">Кроссовки и кеды
+            				</button>
+            				<button class="button-type-cloth btn btn-outline-secondary text-nowrap subtype-button" type="button" data-input-id="sb-3" data-href="https://stockclothes.pythonanywhere.com/catalog/{{filter_by_gender|index:1}}/obuv/sandalii">
+            				    <input type="hidden" name="type_clothes" autocomplete="off" value="103" id="sb-3">Сандалии
+            				</button>
+            				<button class="button-type-cloth btn btn-outline-secondary text-nowrap subtype-button" type="button" data-input-id="sbn-4" data-href="https://stockclothes.pythonanywhere.com/catalog/{{filter_by_gender|index:1}}/obuv/tufli">
+            				    <input type="hidden" name="type_clothes" autocomplete="off" value="104" id="sbn-4">Туфли
+            				</button>
+          				</div>
+        			</div>
+      			</div>
+      			<div class="accordion-item">
+        			<h2 class="accordion-header filter-parent row" id="acc-types-cloth-h2">
+        			    <div data-href="clothes" class="col-8 fs-6 filter-header">
+        			        <input id="radio-odezhda" type="hidden" name="type_clothes" autocomplete="off" value="200">
+    			            <label class="type-label" for="radio-odezhda" data-href="https://stockclothes.pythonanywhere.com/catalog/{{filter_by_gender|index:1}}/odezhda">Одежда</label>
+        			    </div>
+        			    <div class="col-4 filter-button">
+        	      			<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#acc-types-cloth-collapse2" aria-expanded="false" aria-controls="acc-types-cloth-collapse2"></button>
+    	      			</div>
+        			</h2>
+        			<div id="acc-types-cloth-collapse2" class="accordion-collapse collapse" aria-labelledby="acc-types-cloth-h2" data-bs-parent='#filters-types-clothes'>
+          				<div class="accordion-body">
+            				<button class="button-type-cloth btn btn-outline-secondary text-nowrap subtype-button" type="button" data-input-id="sb-4" data-href="https://stockclothes.pythonanywhere.com/catalog/{{filter_by_gender|index:1}}/odezhda/verhnyaya_odezhda">
+            				    <input type="hidden" name="type_clothes" autocomplete="off" value="201" id="sb-4">Верхняя одежда
+            				</button>
+            				<button class="button-type-cloth btn btn-outline-secondary text-nowrap subtype-button" type="button" data-input-id="sb-5" data-href="https://stockclothes.pythonanywhere.com/catalog/{{filter_by_gender|index:1}}/odezhda/bryuki">
+            				    <input type="hidden" name="type_clothes" autocomplete="off" value="202" id="sb-5">Брюки
+            				</button>
+            				<button class="button-type-cloth btn btn-outline-secondary text-nowrap subtype-button" type="button" data-input-id="sb-6" data-href="https://stockclothes.pythonanywhere.com/catalog/{{filter_by_gender|index:1}}/odezhda/futbolki">
+            				    <input type="hidden" name="type_clothes" autocomplete="off" value="203" id="sb-6">Футболки
+            				</button>
+            				<button class="button-type-cloth btn btn-outline-secondary text-nowrap subtype-button" type="button" data-input-id="sb-7" data-href="https://stockclothes.pythonanywhere.com/catalog/{{filter_by_gender|index:1}}/odezhda/rubashki">
+            				    <input type="hidden" name="type_clothes" autocomplete="off" value="204" id="sb-7">Рубашки
+            				</button>
+            				<button class="button-type-cloth btn btn-outline-secondary text-nowrap subtype-button" type="button" data-input-id="sb-8" data-href="https://stockclothes.pythonanywhere.com/catalog/{{filter_by_gender|index:1}}/odezhda/trikotazh">
+            				    <input type="hidden" name="type_clothes" autocomplete="off" value="205" id="sb-8">Трикотаж
+            				</button>
+            				<button class="button-type-cloth btn btn-outline-secondary text-nowrap subtype-button" type="button" data-input-id="sb-9" data-href="https://stockclothes.pythonanywhere.com/catalog/{{filter_by_gender|index:1}}/odezhda/yubki">
+            			        <input type="hidden" name="type_clothes" autocomplete="off" value="206" id="sb-9">Юбки
+            			    </button>
+          				</div>
+        			</div>
+      			</div>
+      			<div class="accordion-item">
+        			<h2 class="accordion-header filter-parent row" id="acc-types-cloth-h3">
+        			    <div data-href="accessories" class="col-8 fs-6 filter-header">
+        			        <input id="radio-aksessuary" type="hidden" name="type_clothes" autocomplete="off" value="300">
+    			            <label class="type-label" for="radio-aksessuary" data-href="https://stockclothes.pythonanywhere.com/catalog/{{filter_by_gender|index:1}}/aksessuaryi">Аксессуары</label>
+        			    </div>
+        			    <div class="col-4 filter-button">
+    	      			    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#acc-types-cloth-collapse3" aria-expanded="false" aria-controls="acc-types-cloth-collapse3"></button>
+    	      			</div>
+        			</h2>
+        			<div id="acc-types-cloth-collapse3" class="accordion-collapse collapse" aria-labelledby="acc-types-cloth-h3" data-bs-parent='#filters-types-clothes'>
+          				<div class="accordion-body">
+            				<button class="button-type-cloth btn btn-outline-secondary text-nowrap subtype-button" type="button" data-input-id="sb-10" data-href="https://stockclothes.pythonanywhere.com/catalog/{{filter_by_gender|index:1}}/aksessuaryi/galstuki">
+            				    <input type="hidden" name="type_clothes" autocomplete="off" value="301" id="sb-10">Галстуки
+            				</button>
+            				<button class="button-type-cloth btn btn-outline-secondary text-nowrap subtype-button" type="button" data-input-id="sb-11" data-href="https://stockclothes.pythonanywhere.com/catalog/{{filter_by_gender|index:1}}/aksessuaryi/zonty">
+            				    <input type="hidden" name="type_clothes" autocomplete="off" value="302" id="sb-11">Зонты
+            				</button>
+            				<button class="button-type-cloth btn btn-outline-secondary text-nowrap subtype-button" type="button" data-input-id="sb-12" data-href="https://stockclothes.pythonanywhere.com/catalog/{{filter_by_gender|index:1}}/aksessuaryi/chasy">
+            				    <input type="hidden" name="type_clothes" autocomplete="off" value="303" id="sb-12">Часы
+            				</button>
+            				<button class="button-type-cloth btn btn-outline-secondary text-nowrap subtype-button" type="button" data-input-id="sb-13" data-href="https://stockclothes.pythonanywhere.com/catalog/{{filter_by_gender|index:1}}/aksessuaryi/remni_i_poyasa">
+        			            <input type="hidden" name="type_clothes" autocomplete="off" value="304" id="sb-13">Ремни и пояса
+        			        </button>
+        			        <button class="button-type-cloth btn btn-outline-secondary text-nowrap subtype-button" type="button" data-input-id="sb-14" data-href="https://stockclothes.pythonanywhere.com/catalog/{{filter_by_gender|index:1}}/aksessuaryi/remni_i_poyasa">
+        			            <input type="hidden" name="type_clothes" autocomplete="off" value="305" id="sb-14">Сумки
+        			        </button>
+          				</div>
+        			</div>
+      			</div>
+      			<div class="accordion-item">
+        			<h2 class="accordion-header row" id="acc-types-cloth-h4">
+        			    <div data-href="/" class="col-8 fs-6 filter-header-disabled disabled">Красота</div>
+        			    <div class="col-4 filter-button">
+    	      			    <button class="accordion-button collapsed disabled text-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#acc-types-cloth-collapse4" aria-expanded="false" aria-controls="acc-types-cloth-collapse4" disabled></button>
+        			    </div>
+        			</h2>
+        			<div id="acc-types-cloth-collapse4" class="accordion-collapse collapse" aria-labelledby="acc-types-cloth-h4" data-bs-parent='#filters-types-clothes'>
+          				<div class="accordion-body">
+            				<button class="button-type-cloth btn btn-outline-secondary text-nowrap" type="button">Волосы</button>
+            				<button class="button-type-cloth btn btn-outline-secondary text-nowrap" type="button">Тело</button>
+            				<button class="button-type-cloth btn btn-outline-secondary text-nowrap" type="button">Аптечная косметика</button>
+            				<button class="button-type-cloth btn btn-outline-secondary text-nowrap" type="button">Парфюмерия</button>
+          				</div>
+        			</div>
+      			</div>
+      			<div class="accordion-item">
+        			<h2 class="accordion-header" id="acc-types-cloth-h5">
+    	      			<button class="extended-acc-points btn btn-outline-dark collapsed w-100 disabled" type="button" disabled>Скидки
+    	      			</button>
+        			</h2>
+
+      			</div>
+      			<div class="accordion-item">
+        			<h2 class="accordion-header border-0" id="acc-types-cloth-h6">
+    	      			<button class="extended-acc-points btn btn-outline-dark collapsed w-100 disabled" type="button" disabled>Новинки
+    	      			</button>
+        			</h2>
+      			</div>
+
+      			<button class="collapsed bi bi-chevron-up btn btn-dark btn-lg w-100 rounded-0 d-md-none" id="filters-button-hidden" type="button" data-bs-toggle="collapse" data-bs-target="#filters-types-clothes" aria-expanded="false" aria-controls="filters-types-clothes"></button>
+		    </form>
+		</div>
+
+		<footer>
+		    {% include "footer.html" %}
+		</footer>
+	</body>
+</html>

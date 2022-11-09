@@ -1,0 +1,89 @@
+select { text-align: left !important;}
+
+option { cursor: pointer; }
+
+.shop-label { cursor: pointer; text-decoration: underline; }
+
+.breadcrumps-form label { cursor: pointer; text-decoration: underline; }
+
+.header-url-shop { margin-left: 25px; margin-bottom: 11px; }
+
+.filter-header .type-label:hover { cursor: pointer; }
+
+.filter-header-disabled { color: rgba(0,0,0,0.5); border-right: 1px solid #e9ecef; padding-left: 32px; padding-top: 16px; font-weight: normal; border-bottom: 1px solid #e9ecef; margin-bottom: -1px; }
+
+.filter-header { border-right: 1px solid #e9ecef; padding-left: 32px; padding-top: 16px; font-weight: normal; border-bottom: 1px solid #e9ecef; margin-bottom: -1px; }
+
+.filter-header:hover { color: rgba(0,0,0,0.355); cursor: pointer; }
+
+.filter-button { padding-left: 0px; }
+
+.filter-button button { margin-left: 0px; padding-left: 0px; align-items: center; color: white !important; border-bottom: 1px solid #e9ecef; margin-bottom: 0px; }
+
+@media (min-width: 1000px) { .filter-button button { padding-right: 24px; } }
+
+@media (max-width: 1000px) { .filter-button button { padding-right: 44px; } }
+
+.material, .sizes { font-size: 0.96em; }
+
+@media (max-width: 1000px) { .material, .sizes { font-size: 0.94em; } }
+
+.material { overflow:hidden; height: 67px; }
+
+.womans-mans { border-top: 1px solid #e9ecef; border-right: 2px solid #e9ecef; width: 101.8%; margin-top: -1px !important; margin-bottom: 0px !important; }
+
+.womans-mans label { border-bottom: 1px solid rgba(0, 0, 0, 0.125) !important; }
+
+.womans-mans [for="btnradio3"] { border-left: 1px solid rgba(0, 0, 0, 0.125) !important; }
+
+@media (min-width: 1000px) { .womans-mans label { width: 116px; height: 50px; } }
+
+@media (max-width: 1000px) { .womans-mans label { display: inline-block !important; text-align: center !important; } }
+
+.product_pos .card { height: 399px; overflow: hidden;}
+
+@media (max-width: 1000px) { .product_pos .card { height: 417px; overflow: hidden;} }
+
+.card-title-body { padding-bottom: 0px !important; height: 47px !important; display: flex; align-items: center !important;}
+
+.product_pos .card .card-title { font-size: 1em; overflow:hidden; height: 23; }
+
+@media (max-width: 1000px) { .product_pos .card .card-title { font-size: 0.970em; overflow:hidden; height: 45; } }
+
+.product_pos img { height: 200px; min-height: 200px; width: 100%; object-fit: scale-down; object-position: center; padding-left: 10px !important; padding-right: 10px !important; padding-top: 10px !important;}
+
+.product_pos { text-decoration: none; color: black; }
+
+.product_pos .card:hover { border: 1px solid #d6d6d6; color: black !important; cursor: default; box-shadow: 0 0 23px rgba(245,245,245,1); }
+
+.product_pos .card:hover img { opacity: 80%; }
+
+nav .breadcrumb { padding-left: 10px; padding-bottom: 8px; }
+
+.container-catalog { width: 76%; margin-left: 12%; padding-bottom: 20px;}
+
+@media (max-width: 1000px) { .container-catalog { width: 100%; margin-left: 0%; } }
+
+.filters { margin-left: 21px; }
+
+.form-fltr-price .dropdown-menu { width: 340px; }
+
+#filters-types-clothes { top: 71px; left: -1px; scroll: auto; width: 12%; }
+
+@media (max-width: 1200px) { #filters-types-clothes { width: 102%; } }
+
+#filters-types-clothes .btn-group { border: solid internal-light-dark(#767676, #858585) 1px; margin-bottom: 1px; left: -3px; top: 1px; }
+
+@media (max-width: 1200px) { #filters-types-clothes .btn-group { width: 100%; } }
+
+#filters-types-clothes .btn:focus, #filters-types-clothes .accordion-button:focus { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); border: rgba(255, 255, 255, 0); }
+
+#filters-types-clothes .accordion-button:not(.collapsed) { background-color: #212529; border: #212529; }
+
+#filters-types-clothes .accordion-button:not(.collapsed):after { background-image: url(./svg-editor-image.svg); color: white !important;}
+
+#filters-types-clothes .button-type-cloth { width: 110%; margin: 0px; padding: 2px 2px 2px 6px; text-align: left; border: 0; }
+
+#filters-types-clothes .extended-acc-points, #filters-types-clothes .btn-outline-dark { text-align: left; border: 0px; padding: 14px 14px 14px 20px; border-radius: 0px; }
+
+#filters-button { margin-top: -19px; }

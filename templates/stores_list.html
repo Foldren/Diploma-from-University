@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+	<head>
+		{% include "meta_tags.html" %}
+        {% include "additional_frameworks.html" %}
+		<link rel="stylesheet" type="text/css" href="{% static 'stores_list/css/stores_list.css' %}">
+		<script src="https://api-maps.yandex.ru/2.1/?load=Geolink&amp;lang=ru_RU&amp;apikey=50df8455-4919-4ebb-ab2e-ea2697a5440e&amp;" type="text/javascript"></script>
+		<title>Магазины - Stock Clothes</title>
+	</head>
+
+	<body>
+		{% include "main_menu_layout.html" %}
+        <script src="{% static 'stores_list/js/stores_list.js' %}"></script>
+		<div class="container-catalog content">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb m-3">
+					<li class="breadcrumb-item"><a href="/">Главная</a></li>
+					{% if remove_filters %}
+    					<li class="breadcrumb-item"><a href="/stores_list">Магазины</a></li>
+    				    <li class="breadcrumb-item active" aria-current="page">{{ stores.0.comp_name }}</li>
+    				{% else %}
+    				    <li class="breadcrumb-item active" aria-current="page">Магазины</li>
+				    {% endif %}
+				</ol>
+			</nav>
+
+            {% if not remove_filters %}
+    			<ul class="filters nav m-3">
+    				<li class="nav-item dropdown m-1">
+    					<button class="btn btn-sm btn-outline-dark dropdown-toggle disabled" type="button" data-bs-toggle="dropdown" role="button"
+    						aria-expanded="false" disabled>Сортировать</button>
+    					<ul class="dropdown-menu">
+    						<li><a class="dropdown-item" href="#">По отзывам</a></li>
+    						<li><a class="dropdown-item" href="#">По средней цене</a></li>
+    						<li><a class="dropdown-item" href="#">По удаленности от метро</a></li>
+    					</ul>
+    				</li>
+
+    				<li class="nav-item dropdown m-1">
+    					<button class="btn btn-sm btn-outline-dark dropdown-toggle disabled" type="button" data-bs-toggle="dropdown" role="button"
+    						aria-expanded="false" disabled>Метро</button>
+    					<ul class="dropdown-menu">
+    						<li><a class="dropdown-item" href="#">Площадь Александра Невского</a></li>
+    						<li><a class="dropdown-item" href="#">Удельная</a></li>
+    					</ul>
+    				</li>
+
+    				<li class="nav-item dropdown m-1">
+    				    <button type="submit" class="btn btn-sm btn-outline-primary disabled" disabled><i class="bi bi-filter-square"></i> Применить</button>
+    				</li>
+    			</ul>
+    		{% endif %}
+
+		    <div id="shops">
+			    {% for store in stores %}
+    			    <form class="shop-catalog-form" method="POST" action="https://stockclothes.pythonanywhere.com/catalog/muzhchinam">
+    			        {% csrf_token %}
+        				<div class="accordion accordion-item m-3 rounded border-0" id="filters-types-clothes">
+        					<div class="card accordion-header" id="acc-shops-h{{forloop.counter}}">
+        						<div class="shop-card">
+        							<div class="row g-0">
+                                        <div class="col-md-4 p-4">
+        									<img src="/media/{{ store.image }}" class="img-fluid shop-img" alt="...">
+        								</div>
+        								<div class="col-lg-8">
+        									<div class="card-body">
+        										<h5 class="card-title">{{ store.comp_name }}</h5>
+        										<p class="card-text descr-shop">{{ store.description }}</p>
+        										<p class="card-text">
+        										    <input type="hidden" name="gender" value="2">
+        										    <input type="hidden" name="store_id" value="{{ store.id }}">
+        										    <button class="btn btn-primary text-start catalogUrl" type='submit'>Перейти к товарам</button><br>
+        											<button class="btn btn-dark rateS {% if store.yandex_rates_id == 0 %} disabled {% endif %}" type='button' data-bs-toggle="collapse" data-bs-target="#acc-shops-collapse{{forloop.counter}}" aria-expanded="false" aria-controls="acc-shops-collapse{{forloop.counter}}" {% if store.yandex_rates_id == 0 %} disabled {% endif %}>
+        											    {% if store.yandex_rates_id != 0 %}
+        											    <i class="bi bi-star-fill text-warning">
+        											        <span class='rate-number'></span>
+        											    </i>   Отзывы
+        											    {% else %}
+        											        У магазина пока нет отзывов
+        											    {% endif %}
+        											</button>
+        											{% if store.yandex_rates_id != 0 %}
+                                                    <div id="acc-shops-collapse{{forloop.counter}}" class="accordion-collapse collapse p-0 w-100 yandex-widget-rate-parent" aria-labelledby="acc-shops-h{{forloop.counter}}" data-bs-parent='#filters-types-clothes'>
+                                        				<div class="yandex-widget-rate">
+                                                            <iframe id="iframe-rate-{{forloop.counter}}" src="https://yandex.ru/maps-reviews-widget/{{store.yandex_rates_id}}?comments"></iframe>
+                                                        </div>
+                                    	    		</div>
+                                    	    		{% endif %}
+        										</p>
+        										<div class="card-text text-secondary additional-data">
+        											<p class="text-muted m-0">Средняя стоимость товаров:</p> 5000руб.
+        										</div>
+        										<div class="card-text additional-data">
+        											<p class="text-muted m-0">Телефон:</p>{{ store.number }}
+        										</div>
+        										<div class="card-text text-secondary additional-data">
+        											<p class="text-muted m-0">Ближайшее метро:</p>Площадь Александра Невского (2км)
+        										</div>
+        										<div class="card-text additional-data ymaps-div">
+        											<p class="text-muted m-0 ymaps-title">Адрес:</p><span class="ymaps-geolink text-wrap m-1" data-type="biz">{{ store.address }}</span>
+        										</div>
+        									</div>
+        								</div>
+        							</div>
+        		      			</div>
+        					</div>
+        				</div>
+    				</form>
+		        {% endfor %}
+		    </div>
+		</div>
+
+		<footer>
+			{% include "footer.html" %}
+		</footer>
+	</body>
+</html>

@@ -1,0 +1,33 @@
+#bag-icon { font-size: 1.5em; }
+
+#cancel_changes { margin-top: 4px; margin-left: 10px; }
+
+nav .breadcrumb { padding-left: 10px; padding-bottom: 8px; }
+
+.container-catalog { width: 76%; margin-left: 12%; }
+
+@media (max-width: 1000px) { .container-catalog { width: 100%; margin-left: 0%; } }
+
+.filters { margin-left: 21px; }
+
+.form-fltr-price .dropdown-menu { width: 340px; }
+
+#filters-types-clothes { top: 71px; left: -1px; scroll: auto; width: 12%; }
+
+@media (max-width: 1200px) { #filters-types-clothes { width: 102%; } }
+
+#filters-types-clothes .btn-group { border: solid internal-light-dark(#767676, #858585) 1px; margin-bottom: 1px; left: -3px; top: 1px; }
+
+@media (max-width: 1200px) { #filters-types-clothes .btn-group { width: 100%; } }
+
+#filters-types-clothes .btn:focus, #filters-types-clothes .accordion-button:focus { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); border: rgba(255, 255, 255, 0); }
+
+#filters-types-clothes .accordion-button:not(.collapsed) { background-color: #212529; color: white; border: #212529; }
+
+#filters-types-clothes .accordion-button:not(.collapsed):after { background-image: url(../images/svg-editor-image.svg); }
+
+#filters-types-clothes .button-type-cloth { width: 110%; margin: 0px; padding: 2px 2px 2px 6px; text-align: left; border: 0; }
+
+#filters-types-clothes .extended-acc-points, #filters-types-clothes .btn-outline-dark { text-align: left; border: 0px; padding: 14px 14px 14px 20px; border-radius: 0px; }
+
+#filters-button { margin-top: -19px; }

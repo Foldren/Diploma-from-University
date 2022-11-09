@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<link rel="stylesheet" type="text/css" href="{% static 'main/css/main.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'favourites/css/favourites.css' %}">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+			integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+		<title>Избранное - Stock Clothes</title>
+	</head>
+
+	<body>
+		{% include "main_menu_layout.html" %}
+
+		<div class="container-catalog content">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb m-3">
+					<li class="breadcrumb-item"><a href="#">Главная</a></li>
+					<li class="breadcrumb-item"><a href="#">Каталог</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Обувь</li>
+				</ol>
+			</nav>
+
+			<ul class="filters nav">
+				<li class="nav-item dropdown m-1">
+					<button class="btn btn-sm btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" role="button"
+						aria-expanded="false">Сортировать</button>
+					<ul class="dropdown-menu">
+						<li><a class="dropdown-item" href="#">По возрастанию цены</a></li>
+						<li><a class="dropdown-item" href="#">По убыванию цены</a></li>
+						<li><a class="dropdown-item" href="#">По скидкам</a></li>
+						<li><a class="dropdown-item" href="#">По новинкам</a></li>
+					</ul>
+				</li>
+
+				<li class="nav-item dropdown m-1">
+					<button class="btn btn-sm btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" role="button"
+						aria-expanded="false">Материалы</button>
+					<ul class="dropdown-menu">
+						<li><a class="dropdown-item" href="#">Хлопок</a></li>
+						<li><a class="dropdown-item" href="#">Искусственная кожа</a></li>
+						<li><a class="dropdown-item" href="#">Хлопок</a></li>
+						<li><a class="dropdown-item" href="#">Лен</a></li>
+						<li><a class="dropdown-item" href="#">Полиэстер</a></li>
+						<li><a class="dropdown-item" href="#">Шерсть</a></li>
+					</ul>
+				</li>
+
+				<li class="nav-item dropdown m-1">
+					<button class="btn btn-sm btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" role="button"
+						aria-expanded="false">Цвет</button>
+					<ul class="dropdown-menu">
+						<li><a class="dropdown-item" href="#">Красный</a></li>
+						<li><a class="dropdown-item" href="#">Синий</a></li>
+						<li><a class="dropdown-item" href="#">Зеленый</a></li>
+						<li><a class="dropdown-item" href="#">Черный</a></li>
+					</ul>
+				</li>
+
+				<li class="nav-item dropdown m-1">
+					<button class="btn btn-sm btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" role="button"
+						aria-expanded="false">Размеры</button>
+					<ul class="dropdown-menu">
+						<li><a class="dropdown-item" href="#">38</a></li>
+						<li><a class="dropdown-item" href="#">39</a></li>
+						<li><a class="dropdown-item" href="#">40</a></li>
+						<li><a class="dropdown-item" href="#">41</a></li>
+						<li><a class="dropdown-item" href="#">42</a></li>
+						<li><a class="dropdown-item" href="#">43</a></li>
+						<li><a class="dropdown-item" href="#">44</a></li>
+					</ul>
+				</li>
+
+				<li class="nav-item dropdown m-1">
+					<form class="form-fltr-price">
+						<button class="btn btn-sm btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" role="button"
+							aria-expanded="false">Цена</button>
+						<ul class="dropdown-menu">
+							<li class="row flex-nowrap w-100">
+								<div class="icon-from col-6 text-nowrap m-1">
+									<input class="form-control m-1" placeholder="От (сумма):" type="text" name="fltr-start">
+								</div>
+								<div class="icon-to col-6 flex-nowrap m-1">
+									<input class="form-control m-1" placeholder="До (сумма):" type="text" name="fltr-end">
+								</div>
+							</li>
+							<li class="row justify-content-center">
+								<button type="submit" class="btn btn-sm btn-outline-primary col-4">Применить</button>
+							</li>
+						</ul>
+					</form>
+				</li>
+
+				<button id="cancel_changes" type="submit" class="btn btn-sm btn-secondary h-75">Очистить список</button>
+			</ul>
+
+			<div class="row col-11 m-2">
+				<div class="card m-3">
+					<div class="favouriteP row">
+						<div class="col-12 col-md-3">
+							<img src="{% static 'favourites/images/kedi1.jpg' %}" class="img-fluid rounded-start" alt="...">
+						</div>
+						<div class="col-11 col-md-6">
+							<div class="card-body">
+								<h5 class="card-title">Nike Air Force 9000   <i class="text-danger bi bi-droplet-fill" title="Красный цвет"></i></h5>
+								<span class="card-text">
+									<p class="fs-3">3500руб.</p>
+									<h5>Магазин:</h5><p class="btn btn-primary" title="Перейти на страницу магазина">Nike м.Площадь Восстания</p><br>
+									<span class="text-secondary">Артикул:</span><p>AD002AWLVRC9</p>
+									<span class="text-secondary">Материал:</span><p>искусственная кожа, натуральная замша</p>
+									<span class="text-secondary">Бренд:</span><p>Nike</p>
+									<span class="text-secondary">Доступные к цвету размеры:</span><p>41 42 43 44</p>
+								</span>
+							</div>
+						</div>
+						<button class="btn btn-outline-secondary col-md-1 col-2 offset-md-2 offset-5 align-self-center" type="button" title = "Удалить из избранного">
+							<i id="bag-icon" class="bi bi-bag-x-fill"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<footer>
+			{% include "footer.html" %}
+		</footer>
+	</body>
+</html>

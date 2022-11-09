@@ -1,0 +1,85 @@
+/*#alertBlock { height: 36px; width: 100%; background-color: #28a745; color: white; text-align: center;}*/
+
+.bi-heart-fill { font-size: 0.8em; }
+
+@media (max-width: 1000px) { #searchButton { width: 77.1% !important; } }
+
+#showPaswButton { height: 36px; }
+
+.help-text-registration { padding-top: 17px !important;}
+
+#searchI { font-size: 85%; }
+
+[name="regNewShop"] .form-control { border: 0; background-color: #373e45; color: white; }
+
+#regButton { margin-top: 10px; }
+
+#collapseMoreI { margin-left: 1px; margin-right: 1px; }
+
+#informationForShops { border-radius: 3px; }
+
+@media (min-width: 1000px) { #informationForShops { margin-right: 16px !important; } }
+
+#carouselSales { border-radius: 3px; }
+
+#collapseMoreInfo { background-color: #212529 !important; margin-top: 20px; }
+
+#collapseMoreInfo .form-control { margin-top: 7px; }
+
+.bi-suit-heart-fill { font-size: 87%; }
+
+body { background-color: #e9ecef !important;}
+
+.navbar .navbar-brand > img { margin-left: 20px; width: 100px; }
+
+.navbar .navbar-nav { margin-left: 50px; width: 53%; }
+
+.navbar .navbar-nav .nav-item { padding-right: 20px; }
+
+.content { padding-top: 15px; margin-top: 70px; height: auto; background-color: white; }
+
+@media (max-width: 1000px) { .content { padding-bottom: 120px !important;} }
+
+.select-clothes { padding: 10px; }
+
+.select-clothes .row { margin-bottom: 15px; }
+
+@media (max-width: 1000px) { [name="search-clothes"]  > div > button { width: 336px !important; } }
+
+.select-type { margin-right: 0px !important; }
+
+.select-type > div { margin-right: 0px !important; }
+
+@media (max-width: 1000px) { .select-type { white-space: nowrap; display: block !important; overflow-y: hidden; height: 180px; margin-left: 0px; width: 100%;} }
+
+@media (max-width: 1000px) { .select-type > div { display: inline-block !important; padding-left: 0px; height: 160px; width: 163px; margin-right: 4px !important;} }
+
+@media (max-width: 1000px) { .select-type img { height: 90px; width: 127px; } }
+
+.select-type-clothes { overflow-x: hidden; }
+
+@media (max-width: 1000px) { .select-type-clothes div { width: 152px;} }
+
+.select-type label, .select-type-clothes label { color: black; border-color: #fff; }
+
+.select-type .card, .select-type-clothes .card { height: 100%; width: 100%; }
+
+.select-type .card:hover, .select-type-clothes .card:hover { color: #0d6efd; }
+
+#carousel-shops .carousel-item { height: 450px; }
+
+@media (min-width: 1900px) { [name="search-clothes"] { margin-right: 300px; } [name="search-clothes"] input { width: 350px; } }
+
+footer { width: 100%; }
+
+footer > div { background-color: white; height: 100px;}
+
+@media (max-width: 1000px) { footer > div { height: 300px; margin-top: 50px;} }
+
+footer > div ul { margin-left: 15px; }
+
+footer > div .dropup { padding-right: 95px; }
+
+footer > div a:not(.dropdown-item) { color: rgba(0, 0, 0, 0.55); }
+
+footer > div a:not(.dropdown-item):hover { color: black; }

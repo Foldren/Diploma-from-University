@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+	<head>
+		{% include "meta_tags.html" %}
+        {% include "additional_frameworks.html" %}
+		<link rel="stylesheet" type="text/css" href="{% static 'product_card/css/product_card.css' %}">
+		<title>Товар {{ product_info.product_card.name }} - Stock Clothes</title>
+	</head>
+
+	<body>
+		{% include "main_menu_layout.html" %}
+        <script src="{% static 'product_card/js/product_card.js' %}"></script>
+		<div class="container-productcard content">
+			<nav aria-label="breadcrumb">
+			    {{ breadcrumps_catalog|safe }}
+			</nav>
+
+			<div class="row col-12">
+				<div class="col-md-6 m-md-3 col-11 m-4">
+					<div class="carousel carousel-dark slide mb-lg-2 mb-xs-0" id="carousel-shops" data-bs-interval="false" data-bs-touch="false"> <!-- data-bs-ride="carousel" запускает слайдер при загрузке страницы-->
+						<div class="carousel-indicators"> <!-- индикаторы слайдера -->
+						    {% for element_img in product_colors %}
+						        <button style="visibility: hidden;" data-bs-target="#carousel-shops" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %} class="active" {% endif %} aria-current="true" aria-label="slide-{{ forloop.counter0 }}"></button>
+							{% endfor %}
+						</div>
+
+						<div class="carousel-inner w-100"> <!-- тело слайдера -->
+						    {% for element_img in product_colors %}
+    							<div class="item-{{forloop.counter0}} carousel-item {% if forloop.first %} active {% endif %}">
+    								<div class='d-flex justify-content-center h-100'>
+    								    <input class="product-article" type="hidden" value="{{ element_img.article }}">
+    								    <input class="product-sizes" type="hidden" value="{{ element_img.sizes }}">
+    									<img src="/media/{{ element_img.image }}" class="d-block" alt="...">
+    								</div>
+    								<div class="carousel-caption d-none d-md-block"><!-- тело слайда --></div>
+    							</div>
+        					{% endfor %}
+						</div>
+
+						<button class="carousel-control-prev invisible" type="button" data-bs-target="#carousel-shops"  data-bs-slide="prev"> <!-- data-bs-slide="prev" кнопка слайдера назад -->
+							<!-- data-bs-slide переключеник слайда (предыдущий, можно data-bs-slide-to)-->
+							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+							<span class="visually-hidden">Предыдущий</span>
+						</button>
+						<button class="carousel-control-next invisible" type="button" data-bs-target="#carousel-shops"  data-bs-slide="next">
+							<span class="carousel-control-next-icon" aria-hidden="true"></span>
+							<span class="visually-hidden">Следующий</span>
+						</button>
+					</div>
+
+					<div id="colors-product" class="btn-group d-flex justify-content-center" role="group" aria-label="select-gender">
+					    {% for element in product_colors %}
+					        <div class="col-md-3 col-6">
+        						<input class="btn-check" type="radio" value="{{forloop.counter0}}" id="c-rad-{{ forloop.counter0 }}" name="color-p" autocomplete="off" {% if forloop.first %} checked {% endif %}>
+        						<label class="btn
+        						    {% if element.color  == 1 %} btn-outline-dark {% elif element.color  == 2 %} btn-outline-success {% elif element.color  == 3 %} btn-outline-primary
+        						    {% elif element.color  == 4 %} btn-outline-danger {% elif element.color  == 5 %} btn-outline-light {% endif %}
+        						    border-0 rounded w-100" for="c-rad-{{ forloop.counter0 }}"><i class="bi {% if element.color  == 5 %} bi-droplet text-dark {% else %} bi-droplet-fill {% endif %}"></i></label>
+                            </div>
+                        {% endfor %}
+					</div>
+				</div>
+
+				<div class="about_product col-md-4 m-md-5 col-11 m-4">
+					<h5>{{ product_info.product_card.name }}</h5>
+					<p class="fs-3">{{ product_info.product_card.price }}руб.</p>
+					<h5>Магазин:</h5><form name="load-shop-product-page" method="post" action="/stores_list/store-{{ trans_name_shop }}">
+					           {% csrf_token %}
+					        <input type="hidden" name="store_id" value="{{ product_info.product_card.shop_info_id }}">
+					        <p class="name-shop-p btn btn-primary">{{ comp_info.comp_name }}</p>
+					    </form><br>
+					<span class="text-secondary">Адрес магазина:</span><p>{{ comp_info.address }}</p>
+					<span class="text-secondary">Артикул:</span><p id="h-product-aricle">{{ product_info.article }}</p>
+					<span class="text-secondary">Материал:</span><p>{{ product_info.product_card.material }}</p>
+					<span class="text-secondary">Бренд:</span><p>{{ product_info.product_card.brand }}</p>
+					<span class="text-secondary">Доступные к цвету размеры:</span><p id="h-product-sizes">{{ product_info.sizes }}</p>
+
+					<button id='btn-like' type='button' class='btn btn-outline-danger disable' disabled>Добавить в избранное</button>
+				</div>
+
+			</div>
+
+			<div id='text-product' class="p-0 m-4">
+				<h5 id="h-product">О товаре</h5><p>{{ product_info.product_card.description }}</p>
+			</div>
+
+		</div>
+
+		<footer>
+			{% include "footer.html" %}
+		</footer>
+	</body>
+</html>

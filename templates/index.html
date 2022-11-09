@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+{% load static %}
+{% load index %}
+<html>
+	<head>
+		{% include "meta_tags.html" %}
+        {% include "additional_frameworks.html" %}
+		<title>Главная - начни продавать сейчас</title>
+	</head>
+
+	<body>
+		{% include "main_menu_layout.html" %}
+        <script src="{% static 'main/js/main.js' %}"></script>
+		<div class="container content pb-5">
+			<div class="carousel slide m-2" id="carousel-shops" data-bs-ride="carousel"> <!-- data-bs-ride="carousel" запускает слайдер при загрузке страницы-->
+				<div class="carousel-indicators"> <!-- индикаторы слайдера -->
+				    {% for element_adv in adversitings %}
+					    <button type="button" data-bs-target="#carousel-shops" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %} class="active" {% endif %} aria-current="true" aria-label="slide-{{ forloop.counter0 }}"></button>
+					{% endfor %}
+				</div>
+
+				<div id="carouselSales" class="carousel-inner"> <!-- тело слайдера -->
+					{% for element_adv in adversitings %}
+    					<div class="carousel-item {% if forloop.first %} active {% endif %}">
+    					    <form class="load-shops" name="loadShopsPage-{{forloop.counter}}" action="/stores_list/store-{{ actions|index:forloop.counter0 }}" method="post">
+    				        {% csrf_token %}
+    				        <input type="hidden" name="store_id" value="{{ element_adv.shop_info_id }}">
+    						<img src="media/{{ element_adv.image }}" class="d-block w-100" alt="...">
+    						<div class="carousel-caption d-none d-md-block">
+    							<h5>{{ element_adv.title }}</h5>
+    							<p>{{ element_adv.text }}</p>
+    						</div>
+    						</form>
+    					</div>
+					{% endfor %}
+				</div>
+
+				<button class="carousel-control-prev" type="button" data-bs-target="#carousel-shops"  data-bs-slide="prev"> <!-- data-bs-slide="prev" кнопка слайдера назад -->
+					 <!--data-bs-slide переключеник слайда (предыдущий, можно data-bs-slide-to)-->
+					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Предыдущий</span>
+				</button>
+				<button class="carousel-control-next" type="button" data-bs-target="#carousel-shops"  data-bs-slide="next">
+					<span class="carousel-control-next-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Следующий</span>
+				</button>
+			</div>
+
+			<div class="card col-md-12 text-light m-2 border-0">
+				<div id="informationForShops" class="card-body btn-dark">
+					<h5 class="card-title">Информация для магазинов</h5>
+					<p class="card-text">Подключайтесь к платформе Stack Clothes и начинайте продвигать свою продукцию</p>
+					<a class="btn btn-outline-light" id="buttonShowMore"  data-bs-toggle="collapse" href="#collapseMoreI" role="button" aria-expanded="false" aria-controls="collapseMoreI">Подробнее</a>
+					<div class="collapse row" id="collapseMoreI">
+						<div id="collapseMoreInfo" class="card card-body bg-secondary form-label">
+							<p>Введите данные для регистрации вашего нового профиля и информацию о магазине, <br>после чего мы свяжемся с вами и добавим магазин на платформу.</p>
+							<form class="col-md-6" name="regNewShop">
+								<p class="form-label">Название магазина:<p><input class="form-control" type="text" name="comp_name" required></p></p>
+								<p class="form-label">Адрес магазина:<p><input class="form-control" type="text" name="address" required></p></p>
+								<p class="help-text-registration">Укажите контакты для обратной связи.</p>
+								<p class="form-label">Телефон:<p><input class="form-control" type="tel" name="number" required></p></p>
+								<p class="form-label">Email:<p><input class="form-control" type="email" name="email" required></p></p>
+								<p class="help-text-registration">Введите данные для авторизации в <a href="https://stockclothes.pythonanywhere.com/admin">админ-панели Stock Clothes Shops</a></p>
+								<p class="form-label">Никнейм:<p><input class="form-control" type="text" name="username" required></p></p>
+								<div class="form-label row">
+								        <span class="mb-0 pb-0">Пароль:</span>
+							            <div class="col-10 col-lg-11">
+							                <input class="form-control" type="password" name="password" required>
+							            </div>
+							            <div id="showPaswButton" class="btn btn-outline-light col-2 col-lg-1 mt-2">
+							                <i class="bi bi-eye-fill"></i>
+							            </div>
+								</div>
+								<button id="regButton" type="submit" class="btn btn-primary">Зарегистрироваться</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+
+            <div class="select-clothes">
+    			<form name="quickSelectForm" action="" method="POST">
+    			    {% csrf_token %}
+    				<h5>Быстрый подбор товаров</h5>
+    				<p>Выберите раздел</p>
+    				<div class="select-type row flex-nowrap">
+    					<div class="col-md-4 m-1 mr-0">
+    						<input class="btn-check" type="radio" name="type-select-clothes" id="type-rad-1" value="2" checked>
+    						<label class="btn btn-primary h-100 p-0" for="type-rad-1">
+    								<div class="card">
+    									<div class="card-body">
+    										<h5 class="card-title">Тинейджеры</h5>
+    										<img class="card-img" src="{% static 'main/images/img-teen.png' %}">
+    									</div>
+    								</div>
+    						</label>
+    					</div>
+    					<div class="col-md-4 m-1">
+    						<input class="btn-check" type="radio" name="type-select-clothes" id="type-rad-2" value="1">
+    						<label class="btn btn-primary h-100 p-0" for="type-rad-2">
+    							<div class="card">
+    								<div class="card-body">
+    									<h5 class="card-title">Взрослые</h5>
+    									<img class="card-img" src="{% static 'main/images/img-adults.jpg' %}">
+    								</div>
+    							</div>
+    						</label>
+    					</div>
+    					<div class="col-md-4 m-1">
+    						<input class="btn-check" type="radio" name="type-select-clothes" id="type-rad-3" value="3">
+    						<label class="btn btn-primary h-100 p-0" for="type-rad-3">
+    							<div class="card">
+    								<div class="card-body">
+    									<h5 class="card-title">Дети</h5>
+    									<img class="card-img" src="{% static 'main/images/img-kids.jpg' %}">
+    								</div>
+    							</div>
+    						</label>
+    					</div>
+    				</div>
+
+    				<p>Укажите пол</p>
+    				<div class="row select-gender"> <!-- radio кнопки -->
+    					<div class="btn-group col-md-4" role="group" aria-label="select-gender">
+    						<input class="btn-check" type="radio" id="gndr-rad-1" name="gender" autocomplete="off" value="Женщинам" data-href="zhenschinam" checked>
+    						<label class="btn btn-outline-primary" for="gndr-rad-1">Женский</label>
+
+    						<input class="btn-check" type="radio" id="gndr-rad-2" name="gender" autocomplete="off" value="Мужчинам" data-href="muzhchinam">
+    						<label class="btn btn-outline-primary" for="gndr-rad-2">Мужской</label>
+    					</div>
+    				</div>
+
+    				<p>Выберите сезон</p>
+    				<div class="row select-season">
+    					<div class="btn-group col-md-4" role="group" aria-label="select-season">
+    						<input class="btn-check" type="radio" id="sn-rad-1" name="season-clothes" autocomplete="off" value="1" checked>
+    						<label class="btn btn-outline-primary" for="sn-rad-1">Лето</label>
+
+    						<input class="btn-check" type="radio" id="sn-rad-2" name="season-clothes" autocomplete="off" value="3">
+    						<label class="btn btn-outline-primary" for="sn-rad-2">Демисезон</label>
+
+    						<input class="btn-check" type="radio" id="sn-rad-3" name="season-clothes" autocomplete="off" value="2">
+    						<label class="btn btn-outline-primary" for="sn-rad-3">Зима</label>
+    					</div>
+    				</div>
+
+    				<p>Что будете покупать?</p>
+    				<div class="select-type-clothes row pt-1 pb-1">
+    					<div class="col-lg-2 m-2 m-lg-0">
+    						<input class="btn-check" type="radio" name="type_clothes" id="clothes-rad-1" value="200" data-href="odezhda" checked>
+    						<label class="btn btn-outline-primary h-100 p-0" for="clothes-rad-1">
+    								<div class="card">
+    									<div class="card-body">
+    										<h5 class="card-title">Одежда</h5>
+    										<img class="card-img" src="{% static 'main/images/img-outerwear.jpg' %}">
+    									</div>
+    								</div>
+    						</label>
+    					</div>
+    					<div class="col-lg-2 m-2 m-lg-0">
+    						<input class="btn-check" type="radio" name="type_clothes" id="clothes-rad-2" value="100" data-href="obuv">
+    						<label class="btn btn-outline-primary h-100 p-0" for="clothes-rad-2">
+    							<div class="card">
+    								<div class="card-body">
+    									<h5 class="card-title">Обувь</h5>
+    									<img class="card-img pt-3" src="{% static 'main/images/img-boots.jpg' %}">
+    								</div>
+    							</div>
+    						</label>
+    					</div>
+    					<div class="col-lg-2 m-2 m-lg-0">
+    						<input class="btn-check" type="radio" name="type_clothes" id="clothes-rad-3" value="300" data-href="aksessuaryi">
+    						<label class="btn btn-outline-primary h-100 p-0" for="clothes-rad-3">
+    							<div class="card">
+    								<div class="card-body">
+    									<h5 class="card-title">Аксессуары</h5>
+    									<img class="card-img pt-5" src="{% static 'main/images/img-accessories.png' %}">
+    								</div>
+    							</div>
+    						</label>
+    					</div>
+    					<div class="col-lg-2 m-2 m-lg-0 disabled">
+    						<input class="btn-check" type="radio" name="type_clothes" id="clothes-rad-4" disabled>
+    						<label class="btn btn-outline-primary h-100 p-0" for="clothes-rad-4">
+    							<div class="card">
+    								<div class="card-body">
+    									<h5 class="card-title">Товары для красоты</h5>
+    									<img class="card-img pt-4" src="{% static 'main/images/img-nature.jpg' %}">
+    								</div>
+    							</div>
+    						</label>
+    					</div>
+    					<div class="col-lg-2 m-2 m-lg-0 disabled">
+    						<input class="btn-check" type="radio" name="type_clothes" id="clothes-rad-5" disabled>
+    						<label class="btn btn-outline-primary h-100 p-0" for="clothes-rad-5">
+    								<div class="card">
+    									<div class="card-body">
+    										<h5 class="card-title">Товары со скидками</h5>
+    										<img class="card-img pt-3" src="{% static 'main/images/img-sale.jpg' %}">
+    									</div>
+    								</div>
+    						</label>
+    					</div>
+    					<div class="col-lg-2 m-2 m-lg-0 disabled">
+    						<input class="btn-check" type="radio" name="type_clothes" id="clothes-rad-6" disabled>
+    						<label class="btn btn-outline-primary h-100 p-0" for="clothes-rad-6">
+    							<div class="card">
+    								<div class="card-body">
+    									<h5 class="card-title">Новинки</h5>
+    									<img class="card-img" src="{% static 'main/images/img-new2.jpg' %}">
+    								</div>
+    							</div>
+    						</label>
+    					</div>
+    				</div>
+
+    				<button id="quick-select-button" type="button" class="btn btn-outline-primary col-lg-2 col-12 mt-3">Подобрать</button>
+    			</form>
+			</div>
+		</div>
+		<footer>
+			{% include "footer.html" %}
+		</footer>
+	</body>
+</html>
